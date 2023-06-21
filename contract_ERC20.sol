@@ -2,6 +2,7 @@
 
 pragma solidity >=0.4.22 <0.9.0;
 
+// to run on local environment, install OpenZeppelin Contracts package from npm
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol";
 
 contract MyToken is ERC20 {
