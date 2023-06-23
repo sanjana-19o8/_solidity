@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
 
+// The contract implements a simple auction where everyone can send their bids during a bidding period. 
+// The bids already include sending money(or Ether) which is returned if a higher bid is raised. On completion of bidding period, the beneficiary can receive their money.
 contract OpenAuction {
     address payable public beneficiary;
     uint public auctionEndTime;
