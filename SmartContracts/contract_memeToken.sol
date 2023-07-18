@@ -6,9 +6,10 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contr
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 
-abstract contract PDTToken is ERC20, ERC20Burnable, Ownable {
+contract PDTToken is ERC20, ERC20Burnable {
     uint256 private constant _decimals = 18;
     uint256 private constant _initialSupply = 1e12 * 10**_decimals;
+    address private owner;
 
     // Addresses for token allocations
     address private constant _liquidityAddress = 0xaCa317851021f1042E3B57F0C55203e28097b6ae; // Address for liquidity provision
@@ -29,6 +30,7 @@ abstract contract PDTToken is ERC20, ERC20Burnable, Ownable {
     uint256 private constant _maxTokenPerAccount = 1e11 * 10**_decimals; // Maximum token holding per account (10% of total supply)
 
     constructor() ERC20("Hybrid Meme Token", "HMT") {
+        owner = msg.sender;
         _mint(address(this), _initialSupply);
 
         // Distribute tokens to specified addresses
@@ -69,7 +71,12 @@ abstract contract PDTToken is ERC20, ERC20Burnable, Ownable {
         super._transfer(sender, recipient, amount);
     }
 
-    function renounceOwnership() public view override onlyOwner {
+    modifier onlyOwner() {
+        require(msg.sender == owner, "only Owner");
+        _;
+    }
+
+    function renounceOwnership() public view onlyOwner {
         revert("Ownership cannot be renounced for this contract");
     }
 }
